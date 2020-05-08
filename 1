@@ -1,0 +1,72 @@
+from tkinter import *
+import random
+window = Tk()
+window.title("IdeaList")
+tasks=[]
+
+window.geometry("320x250")
+window.configure(bg="#EAF2F8")
+window.resizable(False, False)
+def update_listbox():
+    clear_listbox()
+    for task in tasks:
+        lb_tasks.insert("end", task)
+
+
+def add_task():
+    task=text_input.get()
+    if task != "":
+        tasks.append(task)
+        update_listbox()
+    else:
+        lbl_display["text"] = "Enter a task"
+    text_input.delete(0, "end")
+
+
+def clear_listbox():
+    lb_tasks.delete(0, "end")
+
+
+def del_all():
+    global tasks
+    tasks = []
+    update_listbox()
+
+
+def del_one():
+    task = lb_tasks.get("active")
+    if task in tasks:
+        tasks.remove(task)
+    update_listbox()
+
+
+def choose_random():
+    if tasks!=[]:
+        task = random.choice(tasks)
+        lbl_display["text"] = task
+
+
+def number_of_tasks():
+   number_of_tasks=len(tasks)
+   lbl_display["text"] = "Number of tasks: %s" %number_of_tasks
+
+
+lbl = Label(window, text="Create your to do list", fg="#154360", font=("Impact", 28), bg="#EAF2F8")
+lbl.grid(row=0,column=0, columnspan=2)
+lbl_display = Label(window, text=" ", font=("Impact", 16), fg="#154360", bg = "#EAF2F8")
+lbl_display.grid(row=1,column=0)
+text_input = Entry(window, width=20)
+text_input.grid(row=1,column=1)
+btn_add_task = Button(window, text="          Add task          ", fg="black", command=add_task, bg="#D4E6F1")
+btn_add_task.grid(row=2,column=0)
+btn_del_all = Button(window, text="          Delete all          ", fg="black", command=del_all, bg="#D4E6F1")
+btn_del_all.grid(row=3,column=0)
+btn_del_one=Button(window, text=" Delete selected task ", fg="black", command=del_one(), bg="#D4E6F1")
+btn_del_one.grid(row=4,column=0)
+btn_choose_random=Button(window, text="    Choose random    ", fg="black", command=choose_random(), bg="#D4E6F1")
+btn_choose_random.grid(row=5,column=0)
+btn_number_of_tasks=Button(window, text="     Number of tasks   ", fg="black", command=number_of_tasks(), bg="#D4E6F1")
+btn_number_of_tasks.grid(row=6,column=0)
+lb_tasks = Listbox(window)
+lb_tasks.grid(row=2,column=1, rowspan=7)
+window.mainloop()
